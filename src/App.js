@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Login from './pages/Login'
 import Layout from './pages/Layout'
 import './App.less'
+import './styles/base.css'
 // import 'antd/dist/antd.less' 按需打包了 就不用写这个了
 
 export default class App extends Component {
