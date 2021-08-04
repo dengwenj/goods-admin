@@ -1,17 +1,41 @@
 import React, { Component } from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
+// 网络请求
+import { userLogin } from '../../api/user'
 import logo from '../../assets/logo192.png'
 import './index.less'
-
 // const { Item } = Form.Item 下面也可以这样写  这个必须要写在 import 下面
 
 export default class Login extends Component {
-  onFinish = (values) => {
-    console.log(values)
+  // 状态
+  state = {
+    loading: false,
+    text: '登录',
+  }
+
+  // 提交表单且数据验证成功后回调事件
+  onFinish = async (values) => {
+    // 点击登录的时候 loading 为 true
+    this.setState({
+      loading: true,
+      text: '登录中',
+    })
+
+    // 到这里来说明验证都通过了  发送请求 跳转到首页
+    const res = await userLogin(values)
+    console.log(this)
+    this.props.history.push('/')
+    message.success('登录成功')
+  }
+
+  // 提交表单且数据验证失败后回调事件
+  onFinishFailed = ({ values, errorFields, outOfDate }) => {
+    message.warning('请输入用户名和密码')
   }
 
   render() {
+    const { loading, text } = this.state
     return (
       <div className="login">
         <header className="login_header">
@@ -25,9 +49,10 @@ export default class Login extends Component {
             className="login-form"
             initialValues={{ remember: true }}
             onFinish={this.onFinish}
+            onFinishFailed={this.onFinishFailed}
           >
             <Form.Item
-              name="username"
+              name="name"
               rules={[
                 { required: true, whitespace: true, message: '请输入用户名' },
                 {
@@ -71,8 +96,9 @@ export default class Login extends Component {
                 type="primary"
                 htmlType="submit"
                 className="login-form-button"
+                loading={loading}
               >
-                登录
+                {text}
               </Button>
             </Form.Item>
           </Form>
