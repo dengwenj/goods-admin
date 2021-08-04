@@ -10,7 +10,7 @@ import './styles/base.css'
 export default class App extends Component {
   render() {
     return (
-      <div>
+      <div className="app">
         <BrowserRouter>
           {/* Switch 只匹配其中一个 */}
           <Switch>

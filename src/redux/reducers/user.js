@@ -1,5 +1,4 @@
 import { USER_KEY } from '../constant'
-import { getItem } from '../../utils/storage'
 
 // 初始化
 const initState = {}

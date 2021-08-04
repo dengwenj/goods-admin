@@ -39,7 +39,6 @@ class LoginUI extends Component {
 
     // 到这里来说明验证都通过了  发送请求
     const res = await userLogin(values)
-    console.log(res.data.data)
     // 把这个值存到 本地存储中  这里本地存储 仅仅是为了数据持久化
     const { data } = res.data
     setItem('user', data)
