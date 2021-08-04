@@ -21,27 +21,37 @@ export default class Aside extends Component {
 
         <Menu
           defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          // defaultOpenKeys={['sub1']}
           mode="inline"
           theme="dark"
         >
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            首页
+            <Link to="/home">首页</Link>
           </Menu.Item>
           <SubMenu key="sub1" icon={<MailOutlined />} title="商品">
-            <Menu.Item key="5">品类管理</Menu.Item>
-            <Menu.Item key="6">商品管理</Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/category">品类管理</Link>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Link to="/product">商品管理</Link>
+            </Menu.Item>
           </SubMenu>
-          <Menu.Item key="3" icon={<PieChartOutlined />}>
-            用户管理
+          <Menu.Item key="4" icon={<PieChartOutlined />}>
+            <Link to="/user">用户管理</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<PieChartOutlined />}>
-            角色管理
+          <Menu.Item key="5" icon={<PieChartOutlined />}>
+            <Link to="/role">角色管理</Link>
           </Menu.Item>
           <SubMenu key="sub2" icon={<AppstoreOutlined />} title="图形图表">
-            <Menu.Item key="9">柱形图</Menu.Item>
-            <Menu.Item key="10">折线图</Menu.Item>
-            <Menu.Item key="100">饼图</Menu.Item>
+            <Menu.Item key="6">
+              <Link to="bar">柱形图</Link>
+            </Menu.Item>
+            <Menu.Item key="7">
+              <Link to="/line">折线图</Link>
+            </Menu.Item>
+            <Menu.Item key="8">
+              <Link to="/pie">饼图</Link>
+            </Menu.Item>
           </SubMenu>
         </Menu>
       </div>

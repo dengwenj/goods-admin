@@ -49,7 +49,7 @@ class LayoutUI extends Component {
           <Header></Header>
           {/* 头部 */}
 
-          {/* 主题 */}
+          {/* 主体 */}
           <Content style={{ backgroundColor: '#fff' }}>
             <Switch>
               {/* 二级路由  二级路由也要从一级路由这里下来 先要一级路由在二级路由 所有上哪里的拦截器就进不到这里 */}
@@ -66,11 +66,11 @@ class LayoutUI extends Component {
               <Redirect to="/home" />
             </Switch>
           </Content>
-          {/* 主题 */}
+          {/* 主体 */}
 
           {/* 底部 */}
-          <Footer style={{ textAlign: 'center', color: '#ccc' }}>
-            推荐使用谷歌浏览器，可以获得更佳页面操作
+          <Footer style={{ textAlign: 'center', color: '#bbb' }}>
+            由 f2e.xd 用 React 单独开发的后台管理系统
           </Footer>
           {/* 底部 */}
         </Layout>
