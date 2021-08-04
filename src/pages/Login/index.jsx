@@ -22,11 +22,22 @@ export default class Login extends Component {
       text: '登录中',
     })
 
-    // 到这里来说明验证都通过了  发送请求 跳转到首页
+    // 到这里来说明验证都通过了  发送请求
     const res = await userLogin(values)
-    console.log(this)
-    this.props.history.push('/')
-    message.success('登录成功')
+    // 判断用户输入的用户名和密码正确没 正确了跳转首页
+    if (res.data.flag) {
+      // 路由组件在 props有三个重要属性
+      // 用 replace 不需要在回退回来
+      this.props.history.replace('/')
+      message.success('登录成功')
+      return
+    }
+    // 走到这里来了说明用户名或密码错误
+    message.error('用户名或密码错误')
+    this.setState({
+      loading: false,
+      text: '登录',
+    })
   }
 
   // 提交表单且数据验证失败后回调事件
