@@ -1,35 +1,38 @@
-import React, { Component } from 'react'
+import React, { Component, lazy } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { user } from '../../redux/actions/user'
 import { getItem } from '../../utils/storage'
 import { Layout } from 'antd'
-import Aside from '../../components/Aside'
-import Header from '../../components/Header'
-import Home from '../Home'
-import Bar from '../Bar'
-import Category from '../Category'
-import Line from '../Line'
-import Pie from '../Pie'
-import Product from '../Product'
-import Role from '../Role'
-import User from '../User'
+
+// 路由懒加载
+const Aside = lazy(() => import('../../components/Aside'))
+const Header = lazy(() => import('../../components/Header'))
+const Home = lazy(() => import('../../pages/Home'))
+const Bar = lazy(() => import('../../pages/Bar'))
+const Category = lazy(() => import('../../pages/Category'))
+const Line = lazy(() => import('../../pages/Line'))
+const Pie = lazy(() => import('../../pages/Pie'))
+const Product = lazy(() => import('../../pages/Product'))
+const Role = lazy(() => import('../../pages/Role'))
+const User = lazy(() => import('../../pages/User'))
 
 const { Footer, Sider, Content } = Layout
 
 // UI 组件
 class LayoutUI extends Component {
+  // 这样写仅仅是为了学习 练习用加深对知识的印象 实际开发不会这样用
   componentDidMount() {
-    console.log(this)
-    this.props.user(getItem('user') || {})
+    this.props.user(getItem('user'))
   }
 
   render() {
-    const { user_key } = this.props
+    const userKey = getItem('user')
 
     // 如果要在 render 里面跳转用 Redirect
     // 如果没有 user 就不需要访问主页面，跳转到登录页 相当于路由拦截器
-    if (!user_key || !user_key.id) {
+    // 后面的都不会走了 比如 /home /user  也是直接跳转到 /login
+    if (!userKey || !userKey.id) {
       return <Redirect to="/login" />
     }
 
@@ -58,6 +61,8 @@ class LayoutUI extends Component {
               <Route path="/product" component={Product} />
               <Route path="/role" component={Role} />
               <Route path="/user" component={User} />
+              {/* 当路径都没有匹配上是 就显示 /home 就是重定向 */}
+              {/* 一句：就是要每次都要从一级路由这么找下来 */}
               <Redirect to="/home" />
             </Switch>
           </Content>

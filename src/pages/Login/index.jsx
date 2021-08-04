@@ -26,7 +26,6 @@ class LoginUI extends Component {
   componentDidMount() {
     // 交到 redux 中
     this.props.user(getItem('user') || {})
-    console.log(this)
   }
 
   // 提交表单且数据验证成功后回调事件
