@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Menu, Dropdown } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Menu, Dropdown, Modal, message } from 'antd'
+import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { getWeather } from '../../api/weather'
 import { user } from '../../redux/actions/user'
 import { connect } from 'react-redux'
 import menuConfig from '../../config/menuConfig'
-
+import { removeItem } from '../../utils/storage'
 import './index.less'
+
+const { confirm } = Modal
 
 // UI组件
 class HeaderUI extends Component {
@@ -26,6 +28,7 @@ class HeaderUI extends Component {
     // }, 1000)
   }
 
+  // 动态显示当前标题
   getTitle = (menuConfig) => {
     const { pathname } = this.props.location
     let title = ''
@@ -43,12 +46,27 @@ class HeaderUI extends Component {
     return title
   }
 
-  getTitle
+  // 点击退出登录
+  loginOut = () => {
+    confirm({
+      title: '提示',
+      icon: <ExclamationCircleOutlined />,
+      content: '确定退出登录吗？',
+      onOk: () => {
+        // 这里要改成箭头函数 用外部的 this
+        // 删除用户user 回到登录页面
+        removeItem('user')
+        message.success('退出成功')
+        this.props.history.replace('/login')
+      },
+      onCancel() {},
+    })
+  }
 
   menu = (
     <Menu>
       <Menu.Item key="1">
-        <div>退出登录</div>
+        <div onClick={this.loginOut}>退出登录</div>
       </Menu.Item>
     </Menu>
   )
