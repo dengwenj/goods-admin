@@ -1,11 +1,22 @@
 // 用于动态生成侧边栏数据
-import { AppstoreOutlined } from '@ant-design/icons'
+import {
+  HomeOutlined,
+  UserOutlined,
+  PieChartOutlined,
+  LineChartOutlined,
+  BarChartOutlined,
+  AreaChartOutlined,
+  ToolOutlined,
+  BarsOutlined,
+  AppstoreOutlined,
+  UsergroupAddOutlined,
+} from '@ant-design/icons'
 
 const menuList = [
   {
     title: '首页',
     key: '/home',
-    icon: <AppstoreOutlined />,
+    icon: <HomeOutlined />,
   },
   {
     title: '商品',
@@ -15,44 +26,44 @@ const menuList = [
       {
         title: '品类管理',
         key: '/category',
-        icon: <AppstoreOutlined />,
+        icon: <BarsOutlined />,
       },
       {
         title: '商品管理',
         key: '/product',
-        icon: <AppstoreOutlined />,
+        icon: <ToolOutlined />,
       },
     ],
   },
   {
     title: '用户管理',
     key: '/user',
-    icon: <AppstoreOutlined />,
+    icon: <UserOutlined />,
   },
   {
     title: '角色管理',
     key: '/role',
-    icon: <AppstoreOutlined />,
+    icon: <UsergroupAddOutlined />,
   },
   {
     title: '图形图标',
     key: '/tixingtubiao',
-    icon: <AppstoreOutlined />,
+    icon: <AreaChartOutlined />,
     children: [
       {
         title: '柱状图',
         key: '/bar',
-        icon: <AppstoreOutlined />,
+        icon: <BarChartOutlined />,
       },
       {
         title: '折线图',
         key: '/line',
-        icon: <AppstoreOutlined />,
+        icon: <LineChartOutlined />,
       },
       {
         title: '饼图',
         key: '/pie',
-        icon: <AppstoreOutlined />,
+        icon: <PieChartOutlined />,
       },
     ],
   },

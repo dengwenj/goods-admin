@@ -50,7 +50,13 @@ class LayoutUI extends Component {
           {/* 头部 */}
 
           {/* 主体 */}
-          <Content style={{ backgroundColor: '#fff' }}>
+          <Content
+            style={{
+              backgroundColor: '#fff',
+              margin: '20px',
+              marginBottom: '0',
+            }}
+          >
             <Switch>
               {/* 二级路由  二级路由也要从一级路由这里下来 先要一级路由在二级路由 所有上哪里的拦截器就进不到这里 */}
               <Route path="/home" component={Home} />
