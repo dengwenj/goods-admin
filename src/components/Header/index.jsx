@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Menu, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { getWeather } from '../../api/weather'
 import { user } from '../../redux/actions/user'
-import { getItem } from '../../utils/storage'
 import { connect } from 'react-redux'
+import menuConfig from '../../config/menuConfig'
 
 import './index.less'
 
@@ -15,9 +16,6 @@ class HeaderUI extends Component {
   componentDidMount() {
     // 发送请求
     this._getWeather()
-
-    // redux
-    // this.props.user(getItem('user'))
   }
 
   _getWeather = async () => {
@@ -28,6 +26,25 @@ class HeaderUI extends Component {
     // }, 1000)
   }
 
+  getTitle = (menuConfig) => {
+    const { pathname } = this.props.location
+    let title = ''
+    menuConfig.forEach((element) => {
+      if (element.key === pathname) {
+        title = element.title
+      } else if (element.children) {
+        const cItem = element.children.find((item) => item.key === pathname)
+        // 当要所有的匹配完 如果有值才说明有匹配的
+        if (cItem) {
+          title = cItem.title
+        }
+      }
+    })
+    return title
+  }
+
+  getTitle
+
   menu = (
     <Menu>
       <Menu.Item key="1">
@@ -37,6 +54,7 @@ class HeaderUI extends Component {
   )
 
   render() {
+    const title = this.getTitle(menuConfig)
     const { weather } = this.state
     const { name } = this.props.user_key
     return (
@@ -53,7 +71,7 @@ class HeaderUI extends Component {
           </Dropdown>
         </div>
         <div className="header_bottom">
-          <div className="home_title">首页</div>
+          <div className="home_title">{title}</div>
           <div className="time">
             <span>{weather.city}</span>
             <span>{weather.reporttime}</span>
@@ -67,6 +85,6 @@ class HeaderUI extends Component {
 }
 
 // 容器组件
-export default connect((state) => ({ user_key: state.user_key }), { user })(
-  HeaderUI
+export default withRouter(
+  connect((state) => ({ user_key: state.user_key }), { user })(HeaderUI)
 )
