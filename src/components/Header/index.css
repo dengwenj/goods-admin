@@ -3,6 +3,8 @@
   background-color: #fff;
 }
 .header .header_top {
+  display: flex;
+  justify-content: space-between;
   text-align: right;
   line-height: 40px;
   padding-right: 20px;
@@ -11,6 +13,11 @@
 }
 .header .header_top span {
   margin-right: 10px;
+}
+.header .header_top i {
+  font-style: normal;
+  margin-left: 25px;
+  color: #bbb;
 }
 .header .header_bottom {
   display: flex;

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { user } from '../../redux/actions/user'
 import { getItem } from '../../utils/storage'
 import { Layout } from 'antd'
+import './index.less'
 
 // 路由懒加载
 const Aside = lazy(() => import('../../components/Aside'))
@@ -39,12 +40,12 @@ class LayoutUI extends Component {
     return (
       <Layout style={{ height: '100%' }}>
         {/* 侧边栏 */}
-        <Sider>
+        <Sider className="sider">
           <Aside></Aside>
         </Sider>
         {/* 侧边栏 */}
 
-        <Layout>
+        <Layout className="layout">
           {/* 头部 */}
           <Header></Header>
           {/* 头部 */}
@@ -73,9 +74,11 @@ class LayoutUI extends Component {
             </Switch>
           </Content>
           {/* 主体 */}
-
           {/* 底部 */}
-          <Footer style={{ textAlign: 'center', color: '#bbb' }}>
+          <Footer
+            style={{ textAlign: 'center', color: '#bbb' }}
+            className="footer"
+          >
             由 f2e.xd 基于 React 单独开发的后台管理系统
           </Footer>
           {/* 底部 */}

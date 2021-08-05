@@ -30,6 +30,7 @@ class Aside extends Component {
 
         // console.log(path)  唯一的
         // 如果有值 说明当前 item 的子列表需要打开
+        // 这里不止一个子选项
         if (path) {
           this.openKey = item.key
         }
