@@ -10,6 +10,9 @@ class Aside extends Component {
   // 这里用了动态生成
   // 用到了 map()和递归调用
   getMenuNodes = (menuList) => {
+    const { pathname } = this.props.location
+    // console.log(pathname)
+
     return menuList.map((item) => {
       // 这里返回是一个数组
       if (!item.children) {
@@ -19,6 +22,18 @@ class Aside extends Component {
           </Menu.Item>
         )
       } else {
+        // 查找一个与当前请求路径匹配的子 item
+        const path = item.children.find((item1) => {
+          // console.log(item1.key)
+          return item1.key === pathname
+        })
+
+        // console.log(path)  唯一的
+        // 如果有值 说明当前 item 的子列表需要打开
+        if (path) {
+          this.openKey = item.key
+        }
+
         return (
           <SubMenu key={item.key} icon={item.icon} title={item.title}>
             {/* 这里用到了递归 */}
@@ -30,8 +45,10 @@ class Aside extends Component {
   }
 
   render() {
+    // 先这里调用下面才展示的出来
+    const menu = this.getMenuNodes(menuList)
     const { pathname } = this.props.location
-    console.log(pathname)
+
     return (
       <div className="aside">
         <Link to="/" className="link">
@@ -41,11 +58,11 @@ class Aside extends Component {
 
         <Menu
           selectedKeys={[pathname]}
-          // defaultOpenKeys={['/tixingtubiao']}
+          defaultOpenKeys={[this.openKey]}
           mode="inline"
           theme="dark"
         >
-          {this.getMenuNodes(menuList)}
+          {menu}
         </Menu>
       </div>
     )
