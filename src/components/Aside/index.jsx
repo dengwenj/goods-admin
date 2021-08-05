@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Menu } from 'antd'
 import menuList from '../../config/menuConfig'
 import './index.less'
 import logo from '../../assets/logo192.png'
 const { SubMenu } = Menu
 
-export default class Aside extends Component {
+class Aside extends Component {
   // 这里用了动态生成
   // 用到了 map()和递归调用
   getMenuNodes = (menuList) => {
     return menuList.map((item) => {
+      // 这里返回是一个数组
       if (!item.children) {
         return (
           <Menu.Item key={item.key} icon={item.icon}>
@@ -29,6 +30,8 @@ export default class Aside extends Component {
   }
 
   render() {
+    const { pathname } = this.props.location
+    console.log(pathname)
     return (
       <div className="aside">
         <Link to="/" className="link">
@@ -37,8 +40,8 @@ export default class Aside extends Component {
         </Link>
 
         <Menu
-          defaultSelectedKeys={['1']}
-          // defaultOpenKeys={['sub1']}
+          selectedKeys={[pathname]}
+          // defaultOpenKeys={['/tixingtubiao']}
           mode="inline"
           theme="dark"
         >
@@ -48,3 +51,6 @@ export default class Aside extends Component {
     )
   }
 }
+
+// 把一般组件变为路由组件就有路由组件 props 里面就有三大属性了
+export default withRouter(Aside)

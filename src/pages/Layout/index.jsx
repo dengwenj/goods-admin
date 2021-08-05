@@ -70,7 +70,7 @@ class LayoutUI extends Component {
 
           {/* 底部 */}
           <Footer style={{ textAlign: 'center', color: '#bbb' }}>
-            由 f2e.xd 用 React 单独开发的后台管理系统
+            由 f2e.xd 基于 React 单独开发的后台管理系统
           </Footer>
           {/* 底部 */}
         </Layout>
