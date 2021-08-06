@@ -12,7 +12,13 @@ import CategoryContent from '../../components/CategoryContent'
 
 export default class Category extends Component {
   // 状态
-  state = { categorys: [], loading: false } //一级分类列表
+  state = {
+    categorys: [], //一级分类列表
+    subCategorys: [], // 二级分类列表
+    parentId: '0', // 传的父id
+    parentName: '', // 父 名称
+    loading: false, // loading
+  }
 
   // 挂载完毕调用的钩子
   componentDidMount() {
@@ -26,9 +32,14 @@ export default class Category extends Component {
     // 记住只要状态改变就要 render
     // loading 为 true
     this.setState({ loading: true })
-    const res = await getCategoryList(0)
+
+    //  获取状态
+    const { parentId } = this.state
+    const res = await getCategoryList(parentId)
     const categorys = res.data.data
-    this.setState({ categorys, loading: false })
+    // 判断 parentId 是为 0 还是 其他
+    if (parentId === '0') return this.setState({ categorys, loading: false })
+    this.setState({ subCategorys: categorys, loading: false })
   }
 
   // 添加分类
@@ -46,6 +57,13 @@ export default class Category extends Component {
   //   console.log(res)
   // }
 
+  sub = (id, name) => {
+    // 子传过来的 id
+    this.setState({ parentId: id, parentName: name }, () => {
+      this._getCategoryList()
+    }) // 状态更新是异步的
+  }
+
   render() {
     const state = this.state
 
@@ -61,7 +79,7 @@ export default class Category extends Component {
       <div>
         <Card title={title} extra={add}>
           {/* 子组件  state批量传入给子组件*/}
-          <CategoryContent {...state} />
+          <CategoryContent {...state} sub={this.sub} />
         </Card>
       </div>
     )

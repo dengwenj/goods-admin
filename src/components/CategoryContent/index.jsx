@@ -3,8 +3,16 @@ import { Table } from 'antd'
 import LinkButton from '../LinkButton'
 
 export default class CategoryContent extends Component {
+  showSubCategorys = (id, name) => {
+    return () => {
+      // 子传父 把 id 传给父组件
+      this.props.sub(id, name)
+    }
+  }
+
   render() {
-    const { categorys, loading } = this.props
+    const { categorys, loading, parentId, parentName, subCategorys } =
+      this.props
 
     const columns = [
       { title: '分类名称', dataIndex: 'name', key: 'name' },
@@ -12,12 +20,14 @@ export default class CategoryContent extends Component {
       {
         title: '操作',
         width: 350,
-        dataIndex: 'x',
-        key: 'x',
-        render: () => (
+        // 这里 render 里面有传参数过来  就是里面的每一项
+        render: (item) => (
           <span>
             <LinkButton style={{ marginRight: '15px' }}>修改分类</LinkButton>
-            <LinkButton>查看子分类</LinkButton>
+            {/* 这里可以用高阶函数 return 一个函数 也可以在外面包裹一个函数 把这每一项的 id传给父组件 才发请求 二级分类  */}
+            <LinkButton onClick={this.showSubCategorys(item.id, item.name)}>
+              查看子分类
+            </LinkButton>
           </span>
         ),
       },
@@ -28,9 +38,12 @@ export default class CategoryContent extends Component {
         <Table
           rowKey={(record) => record.id}
           columns={columns}
-          dataSource={categorys}
+          dataSource={parentId === '0' ? categorys : subCategorys}
           bordered
-          pagination={true}
+          pagination={{
+            defaultPageSize: 5,
+            pageSizeOptions: [5, 10, 15, 20],
+          }}
           loading={loading}
         />
       </div>
