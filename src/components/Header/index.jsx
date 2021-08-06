@@ -93,9 +93,9 @@ class HeaderUI extends Component {
           <div className="home_title">{title}</div>
           <div className="time">
             <span>{weather.city}</span>
-            <span>{weather.reporttime}</span>
             <span>{weather.temperature}°C</span>
             <span>{weather.weather}</span>
+            <span>更新于：{weather.reporttime}</span>
           </div>
         </div>
       </div>

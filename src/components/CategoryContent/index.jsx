@@ -11,8 +11,7 @@ export default class CategoryContent extends Component {
   }
 
   render() {
-    const { categorys, loading, parentId, parentName, subCategorys } =
-      this.props
+    const { categorys, loading, parentId, subCategorys } = this.props
 
     const columns = [
       { title: '分类名称', dataIndex: 'name', key: 'name' },
@@ -25,9 +24,11 @@ export default class CategoryContent extends Component {
           <span>
             <LinkButton style={{ marginRight: '15px' }}>修改分类</LinkButton>
             {/* 这里可以用高阶函数 return 一个函数 也可以在外面包裹一个函数 把这每一项的 id传给父组件 才发请求 二级分类  */}
-            <LinkButton onClick={this.showSubCategorys(item.id, item.name)}>
-              查看子分类
-            </LinkButton>
+            {parentId === '0' ? (
+              <LinkButton onClick={this.showSubCategorys(item.id, item.name)}>
+                查看子分类
+              </LinkButton>
+            ) : null}
           </span>
         ),
       },

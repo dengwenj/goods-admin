@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Button } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons'
 
 // 网络请求
 import {
@@ -9,6 +9,7 @@ import {
   updateCategory,
 } from '../../api/category'
 import CategoryContent from '../../components/CategoryContent'
+import LinkButton from '../../components/LinkButton'
 
 export default class Category extends Component {
   // 状态
@@ -60,14 +61,29 @@ export default class Category extends Component {
   sub = (id, name) => {
     // 子传过来的 id
     this.setState({ parentId: id, parentName: name }, () => {
+      // 在状态更新且重新 render() 后执行
       this._getCategoryList()
     }) // 状态更新是异步的
+  }
+
+  // 点击这里 把parentId 变为 0 可以返回一个分类 那个一级分类还是存在状态里面的
+  handleClick = () => {
+    this.setState({ parentId: '0' })
   }
 
   render() {
     const state = this.state
 
-    const title = '一级分类列表'
+    const title =
+      state.parentId === '0' ? (
+        '一级分类列表'
+      ) : (
+        <span>
+          <LinkButton onClick={this.handleClick}>一级分类列表</LinkButton>
+          <ArrowRightOutlined style={{ margin: '0 10px' }} />
+          <span>{this.state.parentName}</span>
+        </span>
+      )
     const add = (
       <Button type="primary">
         <PlusOutlined />
