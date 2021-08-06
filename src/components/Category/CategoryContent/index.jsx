@@ -11,8 +11,10 @@ export default class CategoryContent extends Component {
   }
 
   // 点击修改分类
-  handleUpdate = () => {
-    this.props.handleUpdate()
+  handleUpdate = (item) => {
+    return () => {
+      this.props.handleUpdate(item)
+    }
   }
 
   render() {
@@ -29,7 +31,7 @@ export default class CategoryContent extends Component {
           <span>
             <LinkButton
               style={{ marginRight: '15px' }}
-              onClick={this.handleUpdate}
+              onClick={this.handleUpdate(item)}
             >
               修改分类
             </LinkButton>

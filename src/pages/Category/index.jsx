@@ -3,11 +3,7 @@ import { Card, Button } from 'antd'
 import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons'
 
 // 网络请求
-import {
-  getCategoryList,
-  addCategory,
-  updateCategory,
-} from '../../api/category'
+import { getCategoryList, addCategory } from '../../api/category'
 import LinkButton from '../../components/LinkButton'
 import CategoryContent from '../../components/Category/CategoryContent'
 import CategoryAdd from '../../components/Category/CategoryAdd'
@@ -23,6 +19,7 @@ export default class Category extends Component {
     loading: false, // loading
     add: false, // 显示 对话框 用了 函数式组件 练练手
     update: false, //显示 对话框 用了 函数式组件 练练手
+    name: '',
   }
 
   // 挂载完毕调用的钩子
@@ -90,12 +87,17 @@ export default class Category extends Component {
   }
 
   // 点击修改 子传父
-  handleUpdate = () => {
+  handleUpdate = (item) => {
+    this.item = item
     this.setState({ update: true })
   }
 
   render() {
     const state = this.state
+
+    const { name, id } = this.item || {}
+
+    const nameId = { name, id }
 
     const title =
       state.parentId === '0' ? (
@@ -130,7 +132,11 @@ export default class Category extends Component {
         {/* 添加组件 */}
 
         {/* 更新组件 */}
-        <CategoryUpdate update={state.update} updateXG={this.update} />
+        <CategoryUpdate
+          update={state.update}
+          updateXG={this.update}
+          {...nameId}
+        />
         {/* 更新组件 */}
       </div>
     )
