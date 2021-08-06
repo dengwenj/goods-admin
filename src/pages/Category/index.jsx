@@ -8,7 +8,6 @@ import {
   addCategory,
   updateCategory,
 } from '../../api/category'
-
 import LinkButton from '../../components/LinkButton'
 import CategoryContent from '../../components/Category/CategoryContent'
 import CategoryAdd from '../../components/Category/CategoryAdd'
@@ -81,11 +80,11 @@ export default class Category extends Component {
     this.setState({ add: true })
   }
 
-  // 显示隐藏 子传父
+  // 显示隐藏 子传父 添加
   addF = (add) => {
     this.setState({ add })
   }
-  // 显示隐藏 子传父
+  // 显示隐藏 子传父 更新
   update = (update) => {
     this.setState({ update })
   }

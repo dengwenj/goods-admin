@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal } from 'antd'
+import { Modal, Form, Input } from 'antd'
 
 export default function CategoryUpdate(props) {
   const { update, updateXG } = props
@@ -26,16 +26,19 @@ export default function CategoryUpdate(props) {
     // 更新 子传父
     setIsModalVisible(updateXG(false))
   }
+
   return (
     <Modal
-      title="Basic Modal"
+      title="更新分类"
       visible={isModalVisible}
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+      <Form>
+        <Form.Item>
+          <Input placeholder="请输入分类名称" />
+        </Form.Item>
+      </Form>
     </Modal>
   )
 }

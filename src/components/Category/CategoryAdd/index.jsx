@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal } from 'antd'
+import { Modal, Form, Input, Select } from 'antd'
 
 export default function CategoryAdd(props) {
   const { add, addF } = props
@@ -11,10 +11,10 @@ export default function CategoryAdd(props) {
   // setIsModalVisible(传递非函数)
   // setIsModalVisible((value)=>{}) value为原来的值
   const [isModalVisible, setIsModalVisible] = useState(add)
+  // useEffect 可以正在函数式组件里面使用生命周期
   useEffect(() => {
     setIsModalVisible(add)
   }, [add])
-  // setIsModalVisible(add)
 
   const handleOk = () => {
     // addF(false) 子传父
@@ -25,16 +25,28 @@ export default function CategoryAdd(props) {
     // addF(false) 子传父 在父组件里面修改
     setIsModalVisible(addF(false))
   }
+
   return (
     <Modal
-      title="Basic Modal"
+      title="添加分类"
       visible={isModalVisible}
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+      <Form>
+        <Form.Item>
+          <Select defaultValue="0">
+            <Select.Option value="0">0</Select.Option>
+            <Select.Option value="1">1</Select.Option>
+            <Select.Option value="2">2</Select.Option>
+            <Select.Option value="3">3</Select.Option>
+            <Select.Option value="4">4</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item>
+          <Input placeholder="请输入分类名称" />
+        </Form.Item>
+      </Form>
     </Modal>
   )
 }
