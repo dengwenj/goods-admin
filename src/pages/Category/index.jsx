@@ -92,6 +92,11 @@ export default class Category extends Component {
     this.setState({ update: true })
   }
 
+  // 更新成功重新渲染列表 子传父 子里面调用
+  updateSuccess = () => {
+    this._getCategoryList()
+  }
+
   render() {
     const state = this.state
 
@@ -135,6 +140,7 @@ export default class Category extends Component {
         <CategoryUpdate
           update={state.update}
           updateXG={this.update}
+          updateSuccess={this.updateSuccess}
           {...nameId}
         />
         {/* 更新组件 */}
