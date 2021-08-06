@@ -12,7 +12,7 @@ import CategoryContent from '../../components/CategoryContent'
 
 export default class Category extends Component {
   // 状态
-  state = { categorys: [] } //一级分类列表
+  state = { categorys: [], loading: false } //一级分类列表
 
   // 挂载完毕调用的钩子
   componentDidMount() {
@@ -23,9 +23,12 @@ export default class Category extends Component {
 
   // 获取分类的列表
   _getCategoryList = async () => {
+    // 记住只要状态改变就要 render
+    // loading 为 true
+    this.setState({ loading: true })
     const res = await getCategoryList(0)
     const categorys = res.data.data
-    this.setState({ categorys })
+    this.setState({ categorys, loading: false })
   }
 
   // 添加分类
@@ -44,7 +47,7 @@ export default class Category extends Component {
   // }
 
   render() {
-    const { categorys } = this.state
+    const state = this.state
 
     const title = '一级分类列表'
     const add = (
@@ -57,7 +60,8 @@ export default class Category extends Component {
     return (
       <div>
         <Card title={title} extra={add}>
-          <CategoryContent categorys={categorys} />
+          {/* 子组件  state批量传入给子组件*/}
+          <CategoryContent {...state} />
         </Card>
       </div>
     )

@@ -78,7 +78,7 @@ class HeaderUI extends Component {
     return (
       <div className="header">
         <div className="header_top">
-          <i>由 f2e.xd 基于 React 单独开发的后台管理系统</i>
+          {/* <i>由 f2e.xd 基于 React 单独开发的后台管理系统</i> */}
           <Dropdown overlay={this.menu}>
             <a
               href="javasrcipt:"

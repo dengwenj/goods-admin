@@ -4,7 +4,7 @@ import LinkButton from '../LinkButton'
 
 export default class CategoryContent extends Component {
   render() {
-    const { categorys } = this.props
+    const { categorys, loading } = this.props
 
     const columns = [
       { title: '分类名称', dataIndex: 'name', key: 'name' },
@@ -24,11 +24,15 @@ export default class CategoryContent extends Component {
     ]
     return (
       <div>
-        <Table rowKey="1" columns={columns} />
-        <Table rowKey="1" columns={columns} />
-        <Table rowKey="1" columns={columns} />
-        <Table rowKey="1" columns={columns} />
-        <Table rowKey="1" columns={columns} />
+        {/* record 是每一项 */}
+        <Table
+          rowKey={(record) => record.id}
+          columns={columns}
+          dataSource={categorys}
+          bordered
+          pagination={true}
+          loading={loading}
+        />
       </div>
     )
   }
