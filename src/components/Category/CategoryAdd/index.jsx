@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Modal, Form, Input, Select } from 'antd'
+import { Modal, Form, Input, Select, message } from 'antd'
 import { addCategory } from '../../../api/category'
 
 export default function CategoryAdd(props) {
@@ -34,12 +34,23 @@ export default function CategoryAdd(props) {
     if (formRef.current) {
       var r = formRef.current.getFieldsValue(true)
     }
-    await addCategory({
-      parentId,
-      name: r.name,
-    })
-    //  重新刷新列表
-    updateSuccess()
+    if (formRef.current) {
+      formRef.current
+        .validateFields()
+        .then(async (res) => {
+          // 验证通过
+          await addCategory({
+            parentId,
+            name: r.name,
+          })
+          message.success('添加成功')
+          // 重新渲染列表 传给父 这里调用一下 updateSuccess  然后 父组件里面调用 this._getCategoryList()
+          updateSuccess()
+        })
+        .catch((err) => {
+          message.warning('分类名称必须输入')
+        })
+    }
   }
 
   const handleCancel = () => {
@@ -67,7 +78,20 @@ export default function CategoryAdd(props) {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="name">
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: '分类名称必须输入',
+            },
+            {
+              type: 'string',
+              whitespace: true,
+              message: '分类名称必须输入',
+            },
+          ]}
+        >
           <Input ref={input} placeholder="请输入分类名称" />
         </Form.Item>
       </Form>

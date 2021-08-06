@@ -35,16 +35,25 @@ export default function CategoryUpdate(props) {
   }
 
   // 这里是已经 render 完了 就可以回去最新的值了
-  const handleOk = async () => {
+  const handleOk = () => {
     // 更新 子传父
     setIsModalVisible(updateXG(false))
 
-    // 点击 ok 更新分类 发送请求
-    await updateCategory({ id, name: values })
-    message.success('更新成功')
-
-    // 重新渲染列表 传给父 这里调用一下 updateSuccess  然后 父组件里面调用 this._getCategoryList()
-    updateSuccess()
+    if (form.current) {
+      form.current
+        .validateFields()
+        .then(async (res) => {
+          // 验证通过
+          // 点击 ok 更新分类 发送请求
+          await updateCategory({ id, name: values })
+          message.success('更新成功')
+          // 重新渲染列表 传给父 这里调用一下 updateSuccess  然后 父组件里面调用 this._getCategoryList()
+          updateSuccess()
+        })
+        .catch((err) => {
+          message.warning('分类名称必须输入')
+        })
+    }
   }
 
   const handleCancel = () => {
@@ -66,7 +75,20 @@ export default function CategoryUpdate(props) {
         }}
         onFieldsChange={handleOnFieldsChange}
       >
-        <Form.Item name="name">
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: '分类名称必须输入',
+            },
+            {
+              type: 'string',
+              whitespace: true,
+              message: '分类名称必须输入',
+            },
+          ]}
+        >
           <Input placeholder="请输入分类名称" />
         </Form.Item>
       </Form>
