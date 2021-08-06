@@ -8,8 +8,11 @@ import {
   addCategory,
   updateCategory,
 } from '../../api/category'
-import CategoryContent from '../../components/CategoryContent'
+
 import LinkButton from '../../components/LinkButton'
+import CategoryContent from '../../components/Category/CategoryContent'
+import CategoryAdd from '../../components/Category/CategoryAdd'
+import CategoryUpdate from '../../components/Category/CategoryUpdate'
 
 export default class Category extends Component {
   // 状态
@@ -19,6 +22,8 @@ export default class Category extends Component {
     parentId: '0', // 传的父id
     parentName: '', // 父 名称
     loading: false, // loading
+    add: false, // 显示 对话框 用了 函数式组件 练练手
+    update: false, //显示 对话框 用了 函数式组件 练练手
   }
 
   // 挂载完毕调用的钩子
@@ -71,6 +76,25 @@ export default class Category extends Component {
     this.setState({ parentId: '0' })
   }
 
+  // 点击了添加
+  handleAdd = () => {
+    this.setState({ add: true })
+  }
+
+  // 显示隐藏 子传父
+  addF = (add) => {
+    this.setState({ add })
+  }
+  // 显示隐藏 子传父
+  update = (update) => {
+    this.setState({ update })
+  }
+
+  // 点击修改 子传父
+  handleUpdate = () => {
+    this.setState({ update: true })
+  }
+
   render() {
     const state = this.state
 
@@ -85,7 +109,7 @@ export default class Category extends Component {
         </span>
       )
     const add = (
-      <Button type="primary">
+      <Button type="primary" onClick={this.handleAdd}>
         <PlusOutlined />
         添加
       </Button>
@@ -95,8 +119,20 @@ export default class Category extends Component {
       <div>
         <Card title={title} extra={add}>
           {/* 子组件  state批量传入给子组件*/}
-          <CategoryContent {...state} sub={this.sub} />
+          <CategoryContent
+            {...state}
+            sub={this.sub}
+            handleUpdate={this.handleUpdate}
+          />
         </Card>
+
+        {/* 添加组件 */}
+        <CategoryAdd add={state.add} addF={this.addF} />
+        {/* 添加组件 */}
+
+        {/* 更新组件 */}
+        <CategoryUpdate update={state.update} updateXG={this.update} />
+        {/* 更新组件 */}
       </div>
     )
   }

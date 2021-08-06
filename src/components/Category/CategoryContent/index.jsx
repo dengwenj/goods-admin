@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
-import LinkButton from '../LinkButton'
+import LinkButton from '../../LinkButton'
 
 export default class CategoryContent extends Component {
   showSubCategorys = (id, name) => {
@@ -8,6 +8,11 @@ export default class CategoryContent extends Component {
       // 子传父 把 id 传给父组件
       this.props.sub(id, name)
     }
+  }
+
+  // 点击修改分类
+  handleUpdate = () => {
+    this.props.handleUpdate()
   }
 
   render() {
@@ -22,7 +27,12 @@ export default class CategoryContent extends Component {
         // 这里 render 里面有传参数过来  就是里面的每一项
         render: (item) => (
           <span>
-            <LinkButton style={{ marginRight: '15px' }}>修改分类</LinkButton>
+            <LinkButton
+              style={{ marginRight: '15px' }}
+              onClick={this.handleUpdate}
+            >
+              修改分类
+            </LinkButton>
             {/* 这里可以用高阶函数 return 一个函数 也可以在外面包裹一个函数 把这每一项的 id传给父组件 才发请求 二级分类  */}
             {parentId === '0' ? (
               <LinkButton onClick={this.showSubCategorys(item.id, item.name)}>
