@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
 import LinkButton from '../../LinkButton'
+import './index.less'
 
 export default class CategoryContent extends Component {
   showSubCategorys = (id, name) => {

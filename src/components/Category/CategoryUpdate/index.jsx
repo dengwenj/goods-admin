@@ -30,7 +30,7 @@ export default function CategoryUpdate(props) {
 
   // 字段更新时触发回调事件
   const handleOnFieldsChange = (value) => {
-    // 更新状态
+    // 更新状态 更新修改的值
     setValue(value[0].value)
   }
 
@@ -40,8 +40,7 @@ export default function CategoryUpdate(props) {
     setIsModalVisible(updateXG(false))
 
     // 点击 ok 更新分类 发送请求
-    const res = await updateCategory({ id, name: values })
-    console.log(res)
+    await updateCategory({ id, name: values })
     message.success('更新成功')
 
     // 重新渲染列表 传给父 这里调用一下 updateSuccess  然后 父组件里面调用 this._getCategoryList()

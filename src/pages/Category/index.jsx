@@ -3,7 +3,7 @@ import { Card, Button } from 'antd'
 import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons'
 
 // 网络请求
-import { getCategoryList, addCategory } from '../../api/category'
+import { getCategoryList } from '../../api/category'
 import LinkButton from '../../components/LinkButton'
 import CategoryContent from '../../components/Category/CategoryContent'
 import CategoryAdd from '../../components/Category/CategoryAdd'
@@ -60,6 +60,7 @@ export default class Category extends Component {
   // }
 
   sub = (id, name) => {
+    this.nameID = { id, name }
     // 子传过来的 id
     this.setState({ parentId: id, parentName: name }, () => {
       // 在状态更新且重新 render() 后执行
@@ -133,7 +134,14 @@ export default class Category extends Component {
         </Card>
 
         {/* 添加组件 */}
-        <CategoryAdd add={state.add} addF={this.addF} />
+        <CategoryAdd
+          add={state.add}
+          addF={this.addF}
+          categorys={state.categorys}
+          parentId={state.parentId}
+          {...this.nameID}
+          updateSuccess={this.updateSuccess}
+        />
         {/* 添加组件 */}
 
         {/* 更新组件 */}
