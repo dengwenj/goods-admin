@@ -11,7 +11,6 @@ class Aside extends Component {
   // 用到了 map()和递归调用
   getMenuNodes = (menuList) => {
     const { pathname } = this.props.location
-    // console.log(pathname)
 
     return menuList.map((item) => {
       // 这里返回是一个数组
@@ -23,10 +22,9 @@ class Aside extends Component {
         )
       } else {
         // 查找一个与当前请求路径匹配的子 item
-        const path = item.children.find((item1) => {
-          // console.log(item1.key)
-          return item1.key === pathname
-        })
+        const path = item.children.find(
+          (item1) => pathname.indexOf(item1.key) === 0
+        )
 
         // console.log(path)  唯一的
         // 如果有值 说明当前 item 的子列表需要打开
@@ -48,8 +46,11 @@ class Aside extends Component {
   render() {
     // 先这里调用下面才展示的出来
     const menu = this.getMenuNodes(menuList)
-    const { pathname } = this.props.location
-
+    let { pathname } = this.props.location
+    // 当是/product/xxx 的时候
+    if (pathname.indexOf('/product') === 0) {
+      pathname = '/product'
+    }
     return (
       <div className="aside">
         <Link to="/" className="link">

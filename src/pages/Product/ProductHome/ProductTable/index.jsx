@@ -23,8 +23,9 @@ class ProductTable extends Component {
   }
 
   // 点击状态（在售或未售）
-  handleClickStatus = (status, item) => {
+  handleClickStatus = (status, item, index) => {
     // console.log(item)
+    // console.log(index)
     return async () => {
       if (status === 1) {
         status = 2
@@ -57,11 +58,11 @@ class ProductTable extends Component {
         title: '状态',
         dataIndex: 'status',
         width: 120,
-        render: (status, item) => (
+        render: (status, item, index) => (
           <div>
             <Button
               type="primary"
-              onClick={this.handleClickStatus(status, item)}
+              onClick={this.handleClickStatus(status, item, index)}
             >
               {status === 1 ? '下架' : status === 2 ? '上架' : '暂无消息'}
             </Button>
