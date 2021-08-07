@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, Pagination } from 'antd'
 
 import LinkButton from '../../../../components/LinkButton'
 import './index.less'
 
 export default class ProductTable extends Component {
+  state = { current: 1 }
+  // 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
+  onChange = (pageNumber, pageSize) => {
+    this.setState({ current: pageNumber })
+    // 子传父
+    this.props.listChange(pageNumber, pageSize)
+  }
+
   render() {
-    const { products } = this.props
+    const { products, allProducts, loading, disabled } = this.props
+
     const columns = [
       { title: '商品名称', width: 150, dataIndex: 'name' },
       { title: '商品描述', dataIndex: 'desc' },
@@ -54,8 +63,20 @@ export default class ProductTable extends Component {
           columns={columns}
           dataSource={product}
           bordered
+          pagination={false}
+          loading={loading}
         />
-        ,
+        <Pagination
+          style={{ marginTop: 10, textAlign: 'right' }}
+          showQuickJumper // 	是否可以快速跳转至某页
+          current={this.state.current}
+          total={allProducts.total}
+          defaultPageSize={5}
+          pageSizeOptions={[5, 10, 15, 20]} //指定每页可以显示多少条
+          onChange={this.onChange} // 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
+          onShowSizeChange={this.onShowSizeChange}
+          disabled={disabled} //禁用分页
+        />
       </div>
     )
   }

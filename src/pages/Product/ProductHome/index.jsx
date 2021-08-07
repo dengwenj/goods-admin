@@ -12,7 +12,10 @@ export default class ProductHome extends Component {
   state = {
     pageNum: 1, //页码
     pageSize: 5, //每页条目数
-    products: [],
+    products: [], // table数据里面的渲染
+    allProducts: {}, // table的数据
+    loading: false,
+    disabled: false,
   }
 
   // 挂载完毕调用的钩子
@@ -21,6 +24,7 @@ export default class ProductHome extends Component {
   }
 
   _productsList = async () => {
+    this.setState({ loading: true, disabled: true })
     // 获取状态
     const { pageNum, pageSize } = this.state
 
@@ -28,8 +32,23 @@ export default class ProductHome extends Component {
       pageNum,
       pageSize,
     })
+    console.log(res)
     const { list } = res.data
-    this.setState({ products: list })
+    const allProducts = res.data
+    this.setState({
+      products: list,
+      allProducts,
+      loading: false,
+      disabled: false,
+    })
+  }
+
+  // 点击分页 子传过来的
+  lsitChange = (pageNumber, pageSize) => {
+    this.setState({ pageNum: pageNumber, pageSize }, () => {
+      // setate是异步更新的 在状态更新且重新 render()后执行
+      this._productsList()
+    })
   }
 
   handleChange = (value) => {
@@ -37,8 +56,6 @@ export default class ProductHome extends Component {
   }
 
   render() {
-    const { products } = this.state
-
     const title = (
       <span>
         <Select
@@ -69,7 +86,7 @@ export default class ProductHome extends Component {
       <div>
         <Card title={title} extra={extra}>
           {/* table */}
-          <ProductTable products={products} />
+          <ProductTable {...this.state} listChange={this.lsitChange} />
           {/* table */}
         </Card>
       </div>
