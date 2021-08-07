@@ -6,6 +6,7 @@ import './index.less'
 
 export default class ProductTable extends Component {
   state = { current: 1 }
+
   // 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
   onChange = (pageNumber, pageSize) => {
     this.setState({ current: pageNumber })
