@@ -25,3 +25,11 @@ export const updateCategory = (data) => {
     data,
   })
 }
+
+// 获取一个分类
+export const getCategoryOne = (id) => {
+  return request({
+    method: 'GET',
+    url: `category/findCategoryById/${id}`,
+  })
+}

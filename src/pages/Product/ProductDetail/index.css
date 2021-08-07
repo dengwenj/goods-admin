@@ -1,0 +1,18 @@
+.div {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+}
+.div .name {
+  font-weight: 700;
+  font-size: 15px;
+}
+.div .name_info {
+  font-size: 14px;
+  margin-left: 5px;
+  color: #51585e;
+}
+.div .name_info p {
+  margin: 0;
+}

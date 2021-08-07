@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Table, Button, Pagination } from 'antd'
 
 import LinkButton from '../../../../components/LinkButton'
 import './index.less'
 
-export default class ProductTable extends Component {
+class ProductTable extends Component {
   state = { current: 1 }
 
   // 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
@@ -12,6 +13,11 @@ export default class ProductTable extends Component {
     this.setState({ current: pageNumber })
     // 子传父
     this.props.listChange(pageNumber, pageSize)
+  }
+
+  // 点击详情跳转到详情页
+  headleClickDetail = (id) => {
+    this.props.history.push(`/product/detail/${id}`)
   }
 
   render() {
@@ -47,7 +53,12 @@ export default class ProductTable extends Component {
         // dataIndex: 'price', 不写这个 render的参数就是每一项
         render: (item) => (
           <div>
-            <LinkButton style={{ display: 'block', marginBottom: 5 }}>
+            <LinkButton
+              style={{ display: 'block', marginBottom: 5 }}
+              onClick={() => {
+                this.headleClickDetail(item.id)
+              }}
+            >
               详情
             </LinkButton>
             <LinkButton>修改</LinkButton>
@@ -82,3 +93,5 @@ export default class ProductTable extends Component {
     )
   }
 }
+
+export default withRouter(ProductTable)

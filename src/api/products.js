@@ -25,3 +25,11 @@ export const searchName = (params) => {
     params,
   })
 }
+
+// 根据 Id 查询商品 详情
+export const productsById = (id) => {
+  return request({
+    method: 'GET',
+    url: `products/findById/${id}`,
+  })
+}

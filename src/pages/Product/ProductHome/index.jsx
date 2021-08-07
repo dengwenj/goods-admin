@@ -52,11 +52,8 @@ export default class ProductHome extends Component {
       // setate是异步更新的 在状态更新且重新 render()后执行
       // 因为这里有什么的发送请求 所以要判断下 根据isShowNameDescAll 来判断 1 表示 没有搜索 2 表示按名字搜索或描述搜索
       const { isShowNameDescAll } = this.state
-      if (isShowNameDescAll === 1) {
-        // isShowNameDescAll 为1 表示没有搜索
-        this._productsList()
-        return
-      }
+      // isShowNameDescAll 为1 表示没有搜索
+      if (isShowNameDescAll === 1) return this._productsList()
       //isShowNameDescAll 为2 表示按名字搜索或描述搜索
       this.searchProduct()
     })
