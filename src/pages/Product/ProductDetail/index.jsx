@@ -29,7 +29,6 @@ export default class ProductDetail extends Component {
     this.setState({ detailData: data })
     // 在发请求
     const res1 = await getCategoryOne(data.categoryId)
-    console.log(res1)
     this.setState({
       name: res1.data.name,
       categoryName: res1.data.categoryName,

@@ -33,3 +33,14 @@ export const productsById = (id) => {
     url: `products/findById/${id}`,
   })
 }
+
+// 根据 Id更新商品状态（在售或未售）
+export const productsByIdStatus = (id, status) => {
+  return request({
+    method: 'PUT',
+    url: `products/updateStatus/${id}`,
+    data: {
+      status,
+    },
+  })
+}

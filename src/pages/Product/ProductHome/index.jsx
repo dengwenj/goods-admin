@@ -46,6 +46,11 @@ export default class ProductHome extends Component {
     })
   }
 
+  // 点击上架或下架 子传过来的
+  updateStatus = () => {
+    this._productsList()
+  }
+
   // 点击分页 子传过来的
   lsitChange = (pageNumber, pageSize) => {
     this.setState({ pageNum: pageNumber, pageSize }, () => {
@@ -143,7 +148,11 @@ export default class ProductHome extends Component {
       <div>
         <Card title={title} extra={extra}>
           {/* table */}
-          <ProductTable {...this.state} listChange={this.lsitChange} />
+          <ProductTable
+            {...this.state}
+            listChange={this.lsitChange}
+            updateStatus={this.updateStatus}
+          />
           {/* table */}
         </Card>
       </div>

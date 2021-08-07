@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Table, Button, Pagination } from 'antd'
+import { Table, Button, Pagination, message } from 'antd'
 
+// 网络请求
+import { productsByIdStatus } from '../../../../api/products'
 import LinkButton from '../../../../components/LinkButton'
 import './index.less'
 
 class ProductTable extends Component {
-  state = { current: 1 }
+  state = { current: 1, id: null }
 
   // 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
   onChange = (pageNumber, pageSize) => {
@@ -18,6 +20,25 @@ class ProductTable extends Component {
   // 点击详情跳转到详情页
   headleClickDetail = (id) => {
     this.props.history.push(`/product/detail/${id}`)
+  }
+
+  // 点击状态（在售或未售）
+  handleClickStatus = (status, item) => {
+    // console.log(item)
+    return async () => {
+      if (status === 1) {
+        status = 2
+        await productsByIdStatus(item.id, status)
+        // 子传父
+        this.props.updateStatus()
+        message.success('更新状态成功')
+        return
+      }
+      status = 1
+      await productsByIdStatus(item.id, status)
+      this.props.updateStatus()
+      message.success('更新状态成功')
+    }
   }
 
   render() {
@@ -36,13 +57,16 @@ class ProductTable extends Component {
         title: '状态',
         dataIndex: 'status',
         width: 120,
-        render: (status) => (
+        render: (status, item) => (
           <div>
-            <Button type="primary">
-              {status === 1 ? '下架' : status === 0 ? '上架' : '暂无消息'}
+            <Button
+              type="primary"
+              onClick={this.handleClickStatus(status, item)}
+            >
+              {status === 1 ? '下架' : status === 2 ? '上架' : '暂无消息'}
             </Button>
             <div style={{ marginTop: 5, color: '#4b9eb4' }}>
-              {status === 1 ? '在售' : status === 0 ? '未售' : '暂无消息'}
+              {status === 1 ? '在售' : status === 2 ? '未售' : '暂无消息'}
             </div>
           </div>
         ),
