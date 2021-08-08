@@ -14,6 +14,7 @@ export default class ProductAddUpdate extends Component {
     this._getCategoryList()
   }
 
+  // 发送请求
   _getCategoryList = async () => {
     const res = await getCategoryList('0')
     const list = res.data.data
@@ -34,31 +35,28 @@ export default class ProductAddUpdate extends Component {
     console.log(values)
   }
 
-  onChange = (value, selectedOptions) => {
-    console.log(value, selectedOptions)
-  }
+  // 点击 options
+  onChange = async (_, selectedOptions) => {}
 
   // 当选择某个列表项，加载下一级列表的监听回调
-  loadData = (selectedOptions) => {
+  loadData = async (selectedOptions) => {
+    // 得到选择的 options 对象
     const targetOption = selectedOptions[0]
     targetOption.loading = true
 
-    setTimeout(() => {
-      targetOption.loading = false
-      targetOption.children = [
-        {
-          label: `${targetOption.label} Dynamic 1`,
-          value: 'dynamic1',
-        },
-        {
-          label: `${targetOption.label} Dynamic 2`,
-          value: 'dynamic2',
-        },
-      ]
-      this.setState({
-        options: [...this.state.options],
-      })
-    }, 1000)
+    // 发送请求获取二级分类
+    const res1 = await getCategoryList(targetOption.value)
+    const optionsChildren = res1.data.data
+    targetOption.loading = false
+    // 遍历成新数组
+    const optionsChildrenList = optionsChildren.map((item) => ({
+      label: item.name,
+      value: item.id,
+    }))
+    targetOption.children = optionsChildrenList
+    this.setState({
+      options: [...this.state.options],
+    })
   }
 
   render() {
