@@ -48,9 +48,8 @@ class Aside extends Component {
     const menu = this.getMenuNodes(menuList)
     let { pathname } = this.props.location
     // 当是/product/xxx 的时候
-    if (pathname.indexOf('/product') === 0) {
-      pathname = '/product'
-    }
+    if (pathname.indexOf('/product') === 0) pathname = '/product'
+
     return (
       <div className="aside">
         <Link to="/" className="link">

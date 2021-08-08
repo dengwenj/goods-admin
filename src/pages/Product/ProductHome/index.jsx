@@ -138,7 +138,10 @@ export default class ProductHome extends Component {
     )
 
     const extra = (
-      <Button type="primary">
+      <Button
+        type="primary"
+        onClick={() => this.props.history.push('/product/addUpdate')}
+      >
         <PlusOutlined />
         添加商品
       </Button>
