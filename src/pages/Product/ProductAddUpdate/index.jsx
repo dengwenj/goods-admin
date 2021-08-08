@@ -52,15 +52,16 @@ export default class ProductAddUpdate extends Component {
     // 修改
     if (Addupdate) {
       await updateProduct(Addupdate.id, values)
-      this.props.history.replace('/product')
-      this.setState({
-        loading: false,
-      })
-      message.success(this.props.location.state ? '修改成功' : '添加成功')
+      this.RedirectLoadingMsg()
       return
     }
     // 添加
     await addProduct(values)
+    this.RedirectLoadingMsg()
+  }
+
+  // 封装了下
+  RedirectLoadingMsg = () => {
     this.props.history.replace('/product')
     this.setState({
       loading: false,

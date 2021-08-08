@@ -36,7 +36,9 @@ class HeaderUI extends Component {
       if (element.key === pathname) {
         title = element.title
       } else if (element.children) {
-        const cItem = element.children.find((item) => item.key === pathname)
+        const cItem = element.children.find(
+          (item) => pathname.indexOf(item.key) === 0
+        )
         // 当要所有的匹配完 如果有值才说明有匹配的
         if (cItem) {
           title = cItem.title
