@@ -4,6 +4,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons'
 
 // 网路请求
 import { getCategoryList } from '../../../api/category'
+import UpdateImage from './UpdateImage'
 
 export default class ProductAddUpdate extends Component {
   state = {
@@ -144,6 +145,9 @@ export default class ProductAddUpdate extends Component {
               ]}
             >
               <Cascader options={this.state.options} loadData={this.loadData} />
+            </Form.Item>
+            <Form.Item label="商品图片" name="images">
+              <UpdateImage />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
               <Button type="primary" htmlType="submit">
