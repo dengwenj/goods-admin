@@ -44,3 +44,21 @@ export const productsByIdStatus = (id, status) => {
     },
   })
 }
+
+// 添加商品
+export const addProduct = (data) => {
+  return request({
+    url: 'products/addProduct',
+    method: 'POST',
+    data,
+  })
+}
+
+// 修改商品
+export const updateProduct = (id, data) => {
+  return request({
+    url: `products/updateProduct/${id}`,
+    method: 'PUT',
+    data,
+  })
+}

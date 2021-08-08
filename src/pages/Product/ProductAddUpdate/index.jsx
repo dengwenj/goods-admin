@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Button, Cascader } from 'antd'
+import { Card, Form, Input, Button, Cascader, message } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 
 // 网路请求
 import { getCategoryList } from '../../../api/category'
+import { addProduct, updateProduct } from '../../../api/products'
 import UpdateImage from './UpdateImage'
+import RichTextEditor from './RichTextEditor'
 
 export default class ProductAddUpdate extends Component {
   state = {
     options: [],
+    loading: false,
   }
 
   componentDidMount() {
@@ -32,8 +35,37 @@ export default class ProductAddUpdate extends Component {
   }
 
   // 点击提交
-  onFinish = (values) => {
-    console.log(values)
+  onFinish = async (values) => {
+    this.setState({
+      loading: false,
+    })
+    const categoryId = values.categoryIds[0]
+    const pcategoryId = values.categoryIds[1]
+    delete values.categoryIds
+    const text = this.textRef.getText()
+    values.detail = text
+    values.categoryId = categoryId
+    values.pcategoryId = pcategoryId
+    values.status = 1
+    // 发送请求
+    const Addupdate = this.props.location.state
+    // 修改
+    if (Addupdate) {
+      await updateProduct(Addupdate.id, values)
+      this.props.history.replace('/product')
+      this.setState({
+        loading: false,
+      })
+      message.success(this.props.location.state ? '修改成功' : '添加成功')
+      return
+    }
+    // 添加
+    await addProduct(values)
+    this.props.history.replace('/product')
+    this.setState({
+      loading: false,
+    })
+    message.success(this.props.location.state ? '修改成功' : '添加成功')
   }
 
   // 点击 options
@@ -63,7 +95,6 @@ export default class ProductAddUpdate extends Component {
 
   render() {
     const data = this.props.location.state || {}
-    console.log(data)
     const title = (
       <div
         style={{ cursor: 'pointer' }}
@@ -83,7 +114,12 @@ export default class ProductAddUpdate extends Component {
     return (
       <div>
         <Card title={title}>
-          <Form {...layout} name="nest-messages" onFinish={this.onFinish}>
+          <Form
+            {...layout}
+            name="nest-messages"
+            onFinish={this.onFinish}
+            ref={(c) => (c = this.formRef = c)}
+          >
             <Form.Item
               initialValue={data.name}
               name="name"
@@ -131,7 +167,7 @@ export default class ProductAddUpdate extends Component {
               <Input type="number" addonAfter="元" />
             </Form.Item>
             <Form.Item
-              initialValue={[data.id, data.pcategoryId]}
+              initialValue={data.id ? [data.categoryId, data.pcategoryId] : ''}
               name="categoryIds"
               label="商品分类"
               rules={[
@@ -149,8 +185,23 @@ export default class ProductAddUpdate extends Component {
             <Form.Item label="商品图片" name="images">
               <UpdateImage />
             </Form.Item>
+            <Form.Item
+              label="商品详情"
+              name="detail"
+              labelCol={{ span: 2 }}
+              wrapperCol={{ span: 18 }}
+            >
+              <RichTextEditor
+                ref={(c) => (this.textRef = c)}
+                detail={data.detail}
+              />
+            </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={this.state.loading}
+              >
                 提交
               </Button>
             </Form.Item>
