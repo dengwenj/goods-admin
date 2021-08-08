@@ -2,22 +2,31 @@ import React, { Component } from 'react'
 import { Card, Form, Input, Button, Cascader } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 
-const options = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    isLeaf: false,
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    isLeaf: false,
-  },
-]
+// 网路请求
+import { getCategoryList } from '../../../api/category'
 
 export default class ProductAddUpdate extends Component {
   state = {
-    options,
+    options: [],
+  }
+
+  componentDidMount() {
+    this._getCategoryList()
+  }
+
+  _getCategoryList = async () => {
+    const res = await getCategoryList('0')
+    const list = res.data.data
+    // 把这个返回回来的数组 变成一个新数组 用 map 方法
+    const options = list.map((item) => ({
+      value: item.id,
+      label: item.name,
+      isLeaf: false,
+    }))
+    // 更新状态  把这个新数组用于展示
+    this.setState({
+      options,
+    })
   }
 
   // 点击提交
@@ -29,11 +38,11 @@ export default class ProductAddUpdate extends Component {
     console.log(value, selectedOptions)
   }
 
+  // 当选择某个列表项，加载下一级列表的监听回调
   loadData = (selectedOptions) => {
     const targetOption = selectedOptions[0]
     targetOption.loading = true
 
-    // load options lazily
     setTimeout(() => {
       targetOption.loading = false
       targetOption.children = [
