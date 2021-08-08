@@ -86,7 +86,13 @@ class ProductTable extends Component {
             >
               详情
             </LinkButton>
-            <LinkButton>修改</LinkButton>
+            <LinkButton
+              onClick={() =>
+                this.props.history.push('/product/addUpdate', item)
+              }
+            >
+              修改
+            </LinkButton>
           </div>
         ),
       },
