@@ -52,6 +52,7 @@ export default class ProductAddUpdate extends Component {
     const optionsChildrenList = optionsChildren.map((item) => ({
       label: item.name,
       value: item.id,
+      isLeaf: true,
     }))
     targetOption.children = optionsChildrenList
     this.setState({
@@ -121,13 +122,20 @@ export default class ProductAddUpdate extends Component {
             >
               <Input type="number" addonAfter="元" />
             </Form.Item>
-            <Form.Item label="商品分类">
-              <Cascader
-                options={this.state.options}
-                loadData={this.loadData}
-                onChange={this.onChange}
-                changeOnSelect
-              />
+            <Form.Item
+              name="categoryIds"
+              label="商品分类"
+              rules={[
+                { required: true, message: '请选择分类' },
+                {
+                  validator(_, value) {
+                    if (value) return Promise.resolve()
+                    return Promise.reject(new Error('请选择分类'))
+                  },
+                },
+              ]}
+            >
+              <Cascader options={this.state.options} loadData={this.loadData} />
             </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
               <Button type="primary" htmlType="submit">

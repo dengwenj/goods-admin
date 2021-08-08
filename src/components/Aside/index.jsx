@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu } from 'antd'
-import menuList from '../../config/menuConfig'
+import menuList from '../../configs/menuConfig'
 import './index.less'
 import logo from '../../assets/logo192.png'
 const { SubMenu } = Menu

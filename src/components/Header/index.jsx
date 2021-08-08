@@ -5,7 +5,7 @@ import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { getWeather } from '../../api/weather'
 import { user } from '../../redux/actions/user'
 import { connect } from 'react-redux'
-import menuConfig from '../../config/menuConfig'
+import menuConfig from '../../configs/menuConfig'
 import { removeItem } from '../../utils/storage'
 import './index.less'
 
