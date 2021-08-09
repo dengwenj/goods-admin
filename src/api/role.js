@@ -9,9 +9,9 @@ export const getRoles = () => {
 }
 
 // 创建角色 角色的名字
-export const createRoleName = (data) => {
+export const createRole = (data) => {
   return request({
-    url: 'role/createRoleByName',
+    url: 'role/createRole',
     method: 'POST',
     data,
   })

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Table } from 'antd'
+import PubSub from 'pubsub-js'
 
 // 网络请求
 import { getRoles } from '../../../api/role'
@@ -34,6 +35,15 @@ export default function RoleTable(props) {
   useEffect(() => {
     // 发送请求
     _getRoles()
+    // 消息发布和订阅 只要那个组件通过了点击了 就会触发这个回调函数 然后就才次调用这里面的函数发送请求更新 table
+    const unsubscribe = PubSub.subscribe('createRole', () => {
+      _getRoles()
+    })
+    // 这里 return 一个函数了就相当于生命周期即将要卸载的钩子
+    return () => {
+      // 然后在这里面 取消订阅
+      PubSub.unsubscribe(unsubscribe)
+    }
   }, [])
 
   // 获取角色的请求
@@ -51,8 +61,8 @@ export default function RoleTable(props) {
       // console.log(selectedRowKeys) //指定选中项的 key 数组，需要和 onChange 进行配合
       // console.log(selectedRows) // selectedRows 这是个数组 数组里面的只有一个元素就是选中的那一项 0: {key: "1", name: "John Brown", age: 32, address: "New York No. 1 Lake Park", ren: "admin"}
       settingRole(false)
-      console.log(selectedRowKeys)
-      console.log(selectedRows)
+      // console.log(selectedRowKeys)
+      // console.log(selectedRows)
     },
   }
 
