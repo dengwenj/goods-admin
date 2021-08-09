@@ -7,3 +7,12 @@ export const getRoles = () => {
     url: 'role/getRoles',
   })
 }
+
+// 创建角色 角色的名字
+export const createRoleName = (data) => {
+  return request({
+    url: 'role/createRoleByName',
+    method: 'POST',
+    data,
+  })
+}

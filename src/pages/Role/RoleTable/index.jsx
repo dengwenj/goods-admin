@@ -51,11 +51,14 @@ export default function RoleTable(props) {
       // console.log(selectedRowKeys) //指定选中项的 key 数组，需要和 onChange 进行配合
       // console.log(selectedRows) // selectedRows 这是个数组 数组里面的只有一个元素就是选中的那一项 0: {key: "1", name: "John Brown", age: 32, address: "New York No. 1 Lake Park", ren: "admin"}
       settingRole(false)
+      console.log(selectedRowKeys)
+      console.log(selectedRows)
     },
   }
 
   return (
     <Table
+      bordered
       rowKey={(item) => item.id}
       // rowSelection 是个对象格式 	object
       // ...rowSelection 这个的意思就是把定义的这个 rowSelection 里面的属性合并在这里 不让这里看起来臃肿 抽出去写
