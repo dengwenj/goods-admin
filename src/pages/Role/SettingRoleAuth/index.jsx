@@ -3,7 +3,7 @@ import { Modal, Input, Form, Tree } from 'antd'
 import PubSub from 'pubsub-js'
 
 import menuList from '../../../configs/menuConfig'
-import { updateRole } from '../../../api/role'
+// import { updateRole } from '../../../api/role'
 
 const treeData = menuList
 
@@ -13,7 +13,7 @@ export default function SettingRoleAuth(props) {
   const [isModalVisible, setIsModalVisible] = useState(settingRoleAuth)
   const [valueName, setValueName] = useState('')
   const [MenusArr, setItemMenus] = useState([])
-  const [id, setId] = useState('')
+  // const [id, setId] = useState('')
 
   useEffect(() => {
     // 这里相当于 组件更新的钩子
@@ -27,8 +27,8 @@ export default function SettingRoleAuth(props) {
       setValueName(item[0].name)
       const menus = item[0].menus.split(',')
       setItemMenus(menus)
-      const id = item[0].id
-      setId(id)
+      // const id = item[0].id
+      // setId(id)
     })
     return () => {
       PubSub.unsubscribe(unsubscribe)
