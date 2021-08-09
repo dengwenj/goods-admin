@@ -4,11 +4,23 @@ import PubSub from 'pubsub-js'
 
 // 网络请求
 import { getRoles } from '../../../api/role'
+import './index.less'
 
 const columns = [
   {
     title: '角色名称',
     dataIndex: 'name',
+    render: (value, item) => {
+      // 看 item.name 是否包含 { 包含的话就进行里面的操作
+      if (item.name.includes('{')) {
+        // 把 JSON 格式的对象转换为 JS格式的对象
+        const obj = JSON.parse(item.name)
+        if (obj.name) {
+          return <div>{obj.name}</div>
+        }
+      }
+      return <div>{value}</div>
+    },
   },
   {
     title: '创建时间',

@@ -3,7 +3,7 @@ import { Modal, Input, Form, message } from 'antd'
 import PubSub from 'pubsub-js'
 
 // 发送请求
-import { createRole } from '../../../api/role'
+import { createRoleByName } from '../../../api/role'
 
 export default function CreateRoleName(props) {
   const { showRoles, showRole } = props
@@ -23,8 +23,9 @@ export default function CreateRoleName(props) {
     try {
       // 触发表单验证 验证通过 发送请求
       const roleNameObj = await formRef.current.validateFields()
+      const roleNameObjs = roleNameObj
       // 发送请求
-      await createRole(roleNameObj)
+      await createRoleByName(roleNameObjs)
       // 重新加载 table 因为是兄弟组件 用消息发布阅
       PubSub.publish('createRole')
 
@@ -32,9 +33,10 @@ export default function CreateRoleName(props) {
       formRef.current.setFieldsValue({
         name: '',
       })
+      message.success('添加角色成功')
     } catch (error) {
       // 走这里来了 就提示用户
-      message.error('抱歉没有输入角色名称')
+      message.success('抱歉没有输入角色名称')
     }
   }
 
