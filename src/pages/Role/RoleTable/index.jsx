@@ -49,7 +49,12 @@ export default function RoleTable(props) {
     _getRoles()
     // 消息发布和订阅 只要那个组件通过了点击了 就会触发这个回调函数 然后就才次调用这里面的函数发送请求更新 table
     const unsubscribe = PubSub.subscribe('createRole', () => {
+      // 第一种方式
       _getRoles()
+      // 也可以用第二种方式 就是那个请求响应回来了一个数组把数组放到 roles 里面去
+      // 不能用 push 的方法要重新换个数组 [...roles,...返回回来的数组] 然后更新状态就行了
+      // 函数组件只要状态更改，函数就重新调用
+      // setRoles((roles)=>[...roles,...返回回来的数组])
     })
     // 这里 return 一个函数了就相当于生命周期即将要卸载的钩子
     return () => {
@@ -75,6 +80,8 @@ export default function RoleTable(props) {
       settingRole(false)
       // console.log(selectedRowKeys)
       // console.log(selectedRows)
+      // 发布消息
+      PubSub.publish('roleName', selectedRows)
     },
   }
 
