@@ -78,8 +78,6 @@ export default function RoleTable(props) {
       // console.log(selectedRowKeys) //指定选中项的 key 数组，需要和 onChange 进行配合
       // console.log(selectedRows) // selectedRows 这是个数组 数组里面的只有一个元素就是选中的那一项 0: {key: "1", name: "John Brown", age: 32, address: "New York No. 1 Lake Park", ren: "admin"}
       settingRole(false)
-      // console.log(selectedRowKeys)
-      // console.log(selectedRows)
       // 发布消息
       PubSub.publish('roleName', selectedRows)
     },

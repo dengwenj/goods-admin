@@ -16,3 +16,12 @@ export const createRoleByName = (data) => {
     data,
   })
 }
+
+// 更新角色
+export const updateRole = (id, data) => {
+  return request({
+    url: `role/updateRole/${id}`,
+    method: 'PUT',
+    data,
+  })
+}
