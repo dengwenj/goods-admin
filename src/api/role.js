@@ -25,3 +25,11 @@ export const updateRole = (id, data) => {
     data,
   })
 }
+
+// 根据id找到角色
+export const byIdFindRole = (id) => {
+  return request({
+    method: 'GET',
+    url: `role/get/${id}`,
+  })
+}

@@ -26,13 +26,13 @@ export default class App extends Component {
   //   this.setState((state) => {
   //     return { count: state.count + 1 }
   //   })
-  //   console.log('componentDidMount', this.state.count)
+  //   console.log('componentDidMount异步', this.state.count)
 
   //   setTimeout(() => {
   //     this.setState({
   //       count: this.state.count + 1,
   //     })
-  //     console.log('setTimeout', this.state.count)
+  //     console.log('setTimeout同步', this.state.count)
   //   }, 0)
   // }
   render() {

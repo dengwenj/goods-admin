@@ -8,3 +8,11 @@ export const userLogin = (data) => {
     data,
   })
 }
+
+// 获取所有用户
+export const getUserAll = () => {
+  return request({
+    method: 'GET',
+    url: 'user/getUsers',
+  })
+}
