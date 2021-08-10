@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PubSub from 'pubsub-js'
 import { Table, Modal, message } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 
@@ -16,6 +17,16 @@ export default function UserTable(props) {
   useEffect(() => {
     // 发送请求
     _getUserAll()
+
+    // 消息发布与订阅 点击了创建成功 就来到了这里 更新 table 数据
+    const unSubscribe = PubSub.subscribe('addUser', () => {
+      _getUserAll()
+    })
+    // 犯规一个函数这个函数就相当于 即将要卸载的钩子
+    return () => {
+      // 取消订阅
+      PubSub.unsubscribe(unSubscribe)
+    }
   }, [])
 
   const _getUserAll = async () => {
@@ -63,9 +74,9 @@ export default function UserTable(props) {
       key: 'createTime',
     },
     {
-      title: '所属角色',
+      title: '所属角色Id',
       dataIndex: 'roleId',
-      render: (value, item, index) => <div>{item.name}</div>,
+      render: (value, item, index) => <div>{value}</div>,
     },
     {
       title: '操作',

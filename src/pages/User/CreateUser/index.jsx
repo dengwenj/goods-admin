@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Modal, Form, Input, Select } from 'antd'
+import { Modal, Form, Input, Select, message } from 'antd'
+import PubSub from 'pubsub-js'
+
+// 网络请求
+import { addUser } from '../../../api/user'
+import { getRoles } from '../../../api/role'
 
 const { Option } = Select
 
@@ -7,20 +12,38 @@ export default function CreateUser(props) {
   const { isShowCreateUser, showHideModal } = props
 
   const [isModalVisible, setIsModalVisible] = useState(isShowCreateUser)
+  const [roles, setRoles] = useState([])
 
   useEffect(() => {
     setIsModalVisible(isShowCreateUser)
   }, [isShowCreateUser]) // 在 isShowCreateUser 更改时更新
 
+  useEffect(() => {
+    _getRoles()
+  }, [])
+
+  // 获取所有角色
+  const _getRoles = async () => {
+    const res = await getRoles()
+    setRoles(res.data.data)
+  }
+
   // 点击确定
   const handleOk = async () => {
     // 表单验证 验证通过发送请求
     try {
-      const res = await formRef.current.validateFields()
-      console.log(res)
-      // setIsModalVisible(showHideModal(false))
+      const formItemNameAllObj = await formRef.current.validateFields()
+      // 发送请求
+      await addUser(formItemNameAllObj)
+      // 关闭对话框
+      setIsModalVisible(showHideModal(false))
+      // 消息发布与订阅 更新 table
+      PubSub.publish('addUser')
+      // 提示用户创建成功
+      message.success('创建成功')
     } catch (error) {
-      console.log(error)
+      // 提示用户错误
+      message.warning('按照规矩创建哦~')
     }
   }
 
@@ -103,8 +126,9 @@ export default function CreateUser(props) {
           rules={[{ required: true, message: '请选择角色' }]}
         >
           <Select onChange={handleChange} placeholder="请选择角色">
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
+            {roles.map((item) => {
+              return <Option key={item.id}>{item.id}</Option>
+            })}
           </Select>
         </Form.Item>
       </Form>

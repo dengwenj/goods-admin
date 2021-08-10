@@ -26,7 +26,7 @@ export const deleteUserById = (id) => {
 }
 
 // 创建用户
-export const cetateUser = (data) => {
+export const addUser = (data) => {
   return request({
     method: 'POST',
     url: 'user/add',
