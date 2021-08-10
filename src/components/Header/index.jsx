@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Menu, Dropdown, Modal, message } from 'antd'
 import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
+
 import { getWeather } from '../../api/weather'
 import { user } from '../../redux/actions/user'
-import { connect } from 'react-redux'
 import menuConfig from '../../configs/menuConfig'
 import { removeItem } from '../../utils/storage'
 import './index.less'
@@ -29,24 +30,24 @@ class HeaderUI extends Component {
   }
 
   // 动态显示当前标题
-  getTitle = (menuConfig) => {
-    const { pathname } = this.props.location
-    let title = ''
-    menuConfig.forEach((element) => {
-      if (element.key === pathname) {
-        title = element.title
-      } else if (element.children) {
-        const cItem = element.children.find(
-          (item) => pathname.indexOf(item.key) === 0
-        )
-        // 当要所有的匹配完 如果有值才说明有匹配的
-        if (cItem) {
-          title = cItem.title
-        }
-      }
-    })
-    return title
-  }
+  // getTitle = (menuConfig) => {
+  //   const { pathname } = this.props.location
+  //   let title = ''
+  //   menuConfig.forEach((element) => {
+  //     if (element.key === pathname) {
+  //       title = element.title
+  //     } else if (element.children) {
+  //       const cItem = element.children.find(
+  //         (item) => pathname.indexOf(item.key) === 0
+  //       )
+  //       // 当要所有的匹配完 如果有值才说明有匹配的
+  //       if (cItem) {
+  //         title = cItem.title
+  //       }
+  //     }
+  //   })
+  //   return title
+  // }
 
   // 点击退出登录
   loginOut = () => {
@@ -74,13 +75,12 @@ class HeaderUI extends Component {
   )
 
   render() {
-    const title = this.getTitle(menuConfig)
+    // const title = this.getTitle(menuConfig)
     const { weather } = this.state
     const { name } = this.props.user_key
     return (
       <div className="header">
         <div className="header_top">
-          {/* <i>由 f2e.xd 基于 React 单独开发的后台管理系统</i> */}
           <Dropdown overlay={this.menu}>
             <a
               href="javasrcipt:"
@@ -92,7 +92,8 @@ class HeaderUI extends Component {
           </Dropdown>
         </div>
         <div className="header_bottom">
-          <div className="home_title">{title}</div>
+          {/* this.props.headerTitle redux 存的 读数据*/}
+          <div className="home_title">{this.props.headerTitle}</div>
           <div className="time">
             <span>{weather.city}</span>
             <span>{weather.temperature}°C</span>
@@ -106,6 +107,14 @@ class HeaderUI extends Component {
 }
 
 // 容器组件
-export default withRouter(
-  connect((state) => ({ user_key: state.user_key }), { user })(HeaderUI)
-)
+// export default withRouter(
+//   connect(
+//     (state) => ({ user_key: state.user_key, headerTitle: state.headerTitle }),
+//     { user }
+//   )(HeaderUI)
+// )
+
+export default connect(
+  (state) => ({ user_key: state.user_key, headerTitle: state.headerTitle }),
+  { user }
+)(withRouter(HeaderUI))

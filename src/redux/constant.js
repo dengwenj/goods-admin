@@ -3,3 +3,4 @@
 */
 // 命名
 export const USER_KEY = 'user_key'
+export const SET_HEADER_TITLE = 'set_header_title'

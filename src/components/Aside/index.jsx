@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu } from 'antd'
+import { connect } from 'react-redux'
+import { setHeaderTitle } from '../../redux/actions/headerTitle'
+
 import menuList from '../../configs/menuConfig'
 import './index.less'
 import logo from '../../assets/logo192.png'
@@ -15,9 +18,18 @@ class Aside extends Component {
     return menuList.map((item) => {
       // 这里返回是一个数组
       if (!item.children) {
+        // 对应的
+        if (item.key === pathname || pathname.indexOf(item.key) === 0) {
+          this.props.setHeaderTitle(item.title)
+        }
         return (
           <Menu.Item key={item.key} icon={item.icon}>
-            <Link to={item.key}>{item.title}</Link>
+            <Link
+              to={item.key}
+              onClick={() => this.props.setHeaderTitle(item.title)}
+            >
+              {item.title}
+            </Link>
           </Menu.Item>
         )
       } else {
@@ -71,4 +83,4 @@ class Aside extends Component {
 }
 
 // 把一般组件变为路由组件就有路由组件 props 里面就有三大属性了
-export default withRouter(Aside)
+export default connect((state) => ({}), { setHeaderTitle })(withRouter(Aside))
