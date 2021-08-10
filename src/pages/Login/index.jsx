@@ -151,8 +151,12 @@ class LoginUI extends Component {
 // 这个第一个参数要穿两个函数  但是 第二个参数有个简写的方法 可以写成对象
 // 第一个参数是 保存的状态 这个 state 就是 总的状态  他们两个的返回值就保存到 ui 组件的 props 了 返回必须是对象
 // 第二个参数是 操作状态的方法 dispathch
-const Login = connect((state) => ({ user_key: state.user_key }), { user })(
-  LoginUI
-)
+const Login = connect(
+  (state) => {
+    // console.log(state)
+    return { user_key: state.user_key }
+  },
+  { user }
+)(LoginUI)
 
 export default Login

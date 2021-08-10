@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { Card, Button } from 'antd'
 
 import CreateUser from './CreateUser'
-
 import UserTable from './UserTable'
 
 export default class User extends PureComponent {

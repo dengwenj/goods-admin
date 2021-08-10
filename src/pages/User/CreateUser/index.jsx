@@ -10,7 +10,6 @@ const { Option } = Select
 
 export default function CreateUser(props) {
   const { isShowCreateUser, showHideModal, itemUser } = props
-  console.log(itemUser)
 
   const [isModalVisible, setIsModalVisible] = useState(isShowCreateUser)
   const [roles, setRoles] = useState([])
@@ -56,8 +55,7 @@ export default function CreateUser(props) {
     // 表单验证 验证通过发送请求
     try {
       const formItemNameAllObj = await formRef.current.validateFields()
-      console.log(formItemNameAllObj)
-      // 要判断发送什么请求时创建的请求还是更新的请求
+      // 要判断发送什么请求是创建的请求还是更新的请求
       // 就判断 itemUser 对象是不是空的 是空的就是创建用户，不是空的就是修改用户
       if (itemUser.name) {
         // 不是空的就是修改用户
@@ -132,7 +130,6 @@ export default function CreateUser(props) {
             <Input type="password" placeholder="请输入密码" />
           </Form.Item>
         )}
-
         <Form.Item
           initialValue={itemUser.phone}
           name="phone"
@@ -164,7 +161,7 @@ export default function CreateUser(props) {
         <Form.Item
           initialValue={itemUser.roleId}
           name="roleId"
-          label="角色"
+          label="角色Id"
           rules={[{ required: true, message: '请选择角色Id' }]}
         >
           <Select placeholder="请选择角色Id">
