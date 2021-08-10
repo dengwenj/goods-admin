@@ -9,7 +9,8 @@ import { getRoles } from '../../../api/role'
 const { Option } = Select
 
 export default function CreateUser(props) {
-  const { isShowCreateUser, showHideModal } = props
+  const { isShowCreateUser, showHideModal, itemUser } = props
+  // console.log(itemUser)
 
   const [isModalVisible, setIsModalVisible] = useState(isShowCreateUser)
   const [roles, setRoles] = useState([])
@@ -21,6 +22,28 @@ export default function CreateUser(props) {
   useEffect(() => {
     _getRoles()
   }, [])
+
+  useEffect(() => {
+    if (!itemUser.name) {
+      if (formRef.current) {
+        formRef.current.setFieldsValue({
+          name: '',
+          phone: '',
+          email: '',
+          roleId: '',
+        })
+      }
+      return
+    }
+    if (formRef.current) {
+      formRef.current.setFieldsValue({
+        name: itemUser.name,
+        phone: itemUser.phone,
+        email: itemUser.email,
+        roleId: itemUser.roleId,
+      })
+    }
+  })
 
   // 获取所有角色
   const _getRoles = async () => {
@@ -52,10 +75,6 @@ export default function CreateUser(props) {
     setIsModalVisible(showHideModal(false))
   }
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`)
-  }
-
   const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 16 },
@@ -72,6 +91,8 @@ export default function CreateUser(props) {
     >
       <Form {...layout} ref={formRef}>
         <Form.Item
+          // 注意 initialValues 不能被 setState 动态更新，你需要用 setFieldsValue 来更新。
+          initialValue={itemUser.name}
           name="name"
           label="用户名"
           rules={[
@@ -81,20 +102,26 @@ export default function CreateUser(props) {
         >
           <Input placeholder="请输入用户名" />
         </Form.Item>
+        {itemUser.name ? (
+          ''
+        ) : (
+          <Form.Item
+            name="password"
+            label="密码"
+            rules={[
+              { required: true, message: '请输入密码' },
+              {
+                pattern: /^[0-9a-zA-Z]{6,20}$/,
+                message: '密码格式输入有误',
+              },
+            ]}
+          >
+            <Input type="password" placeholder="请输入密码" />
+          </Form.Item>
+        )}
+
         <Form.Item
-          name="password"
-          label="密码"
-          rules={[
-            { required: true, message: '请输入密码' },
-            {
-              pattern: /^[0-9a-zA-Z]{6,20}$/,
-              message: '密码格式输入有误',
-            },
-          ]}
-        >
-          <Input type="password" placeholder="请输入密码" />
-        </Form.Item>
-        <Form.Item
+          initialValue={itemUser.phone}
           name="phone"
           label="手机号"
           rules={[
@@ -108,6 +135,7 @@ export default function CreateUser(props) {
           <Input placeholder="请输入手机号" />
         </Form.Item>
         <Form.Item
+          initialValue={itemUser.email}
           name="email"
           label="邮箱"
           rules={[
@@ -121,11 +149,12 @@ export default function CreateUser(props) {
           <Input placeholder="请输入邮箱" type="email" />
         </Form.Item>
         <Form.Item
+          initialValue={itemUser.roleId}
           name="roleId"
           label="角色"
-          rules={[{ required: true, message: '请选择角色' }]}
+          rules={[{ required: true, message: '请选择角色Id' }]}
         >
-          <Select onChange={handleChange} placeholder="请选择角色">
+          <Select placeholder="请选择角色Id">
             {roles.map((item) => {
               return <Option key={item.id}>{item.id}</Option>
             })}

@@ -33,3 +33,12 @@ export const addUser = (data) => {
     data,
   })
 }
+
+// 更新用户
+export const updateUser = (id, data) => {
+  return request({
+    method: 'PUT',
+    url: `user/update/${id}`,
+    data,
+  })
+}

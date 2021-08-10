@@ -12,6 +12,8 @@ import './index.less'
 const { confirm } = Modal
 
 export default function UserTable(props) {
+  const { tableUpdataUser } = props
+
   const [UserList, setUserList] = useState([])
 
   useEffect(() => {
@@ -29,11 +31,13 @@ export default function UserTable(props) {
     }
   }, [])
 
+  // 发送请求 获取数据 展示在页面
   const _getUserAll = async () => {
     const res = await getUserAll()
     setUserList(res.data)
   }
 
+  // 删除用户
   const deleteUser = (id) => {
     return () => {
       confirm({
@@ -49,6 +53,13 @@ export default function UserTable(props) {
         },
         onCancel() {},
       })
+    }
+  }
+
+  // 更新用户 点击修改
+  const update = (item) => {
+    return () => {
+      tableUpdataUser(item, true)
     }
   }
 
@@ -82,7 +93,9 @@ export default function UserTable(props) {
       title: '操作',
       render: (item) => (
         <div>
-          <LinkButton style={{ marginRight: 10 }}>修改</LinkButton>
+          <LinkButton style={{ marginRight: 10 }} onClick={update(item)}>
+            修改
+          </LinkButton>
           <LinkButton onClick={deleteUser(item.id)}>删除</LinkButton>
         </div>
       ),
