@@ -3,14 +3,14 @@ import { Modal, Form, Input, Select, message } from 'antd'
 import PubSub from 'pubsub-js'
 
 // 网络请求
-import { addUser } from '../../../api/user'
+import { addUser, updateUser } from '../../../api/user'
 import { getRoles } from '../../../api/role'
 
 const { Option } = Select
 
 export default function CreateUser(props) {
   const { isShowCreateUser, showHideModal, itemUser } = props
-  // console.log(itemUser)
+  console.log(itemUser)
 
   const [isModalVisible, setIsModalVisible] = useState(isShowCreateUser)
   const [roles, setRoles] = useState([])
@@ -56,18 +56,31 @@ export default function CreateUser(props) {
     // 表单验证 验证通过发送请求
     try {
       const formItemNameAllObj = await formRef.current.validateFields()
-      // 发送请求
+      console.log(formItemNameAllObj)
+      // 要判断发送什么请求时创建的请求还是更新的请求
+      // 就判断 itemUser 对象是不是空的 是空的就是创建用户，不是空的就是修改用户
+      if (itemUser.name) {
+        // 不是空的就是修改用户
+        await updateUser(itemUser.id, formItemNameAllObj)
+        hidePubSubMsg()
+        return
+      }
+      // 发送请求 是空的就是创建用户
       await addUser(formItemNameAllObj)
-      // 关闭对话框
-      setIsModalVisible(showHideModal(false))
-      // 消息发布与订阅 更新 table
-      PubSub.publish('addUser')
-      // 提示用户创建成功
-      message.success('创建成功')
+      hidePubSubMsg()
     } catch (error) {
       // 提示用户错误
       message.warning('按照规矩创建哦~')
     }
+  }
+
+  const hidePubSubMsg = () => {
+    // 关闭对话框
+    setIsModalVisible(showHideModal(false))
+    // 消息发布与订阅 更新 table
+    PubSub.publish('addUser')
+    // 提示用户创建成功
+    message.success('创建成功')
   }
 
   // 点击取消
