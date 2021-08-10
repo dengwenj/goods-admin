@@ -24,3 +24,12 @@ export const deleteUserById = (id) => {
     method: 'DELETE',
   })
 }
+
+// 创建用户
+export const cetateUser = (data) => {
+  return request({
+    method: 'POST',
+    url: 'user/add',
+    data,
+  })
+}
