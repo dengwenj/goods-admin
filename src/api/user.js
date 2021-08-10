@@ -16,3 +16,11 @@ export const getUserAll = () => {
     url: 'user/getUsers',
   })
 }
+
+// 删除用户
+export const deleteUserById = (id) => {
+  return request({
+    url: `user/delete/${id}`,
+    method: 'DELETE',
+  })
+}
