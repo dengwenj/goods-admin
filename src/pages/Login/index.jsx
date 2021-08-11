@@ -18,8 +18,8 @@ import './index.less'
 class LoginUI extends Component {
   // 状态
   state = {
-    loading: false,
-    text: '登录',
+    // loading: false,
+    // text: '登录',
   }
 
   // 挂载完毕调用的钩子
@@ -73,7 +73,7 @@ class LoginUI extends Component {
   }
 
   render() {
-    const { loading, text } = this.state
+    // const { loading, text } = this.state
     const { userLoginData } = this.props
 
     // 如果在 render 里面跳转用 Redirect
@@ -142,9 +142,9 @@ class LoginUI extends Component {
                 type="primary"
                 htmlType="submit"
                 className="login-form-button"
-                loading={loading}
+                // loading={loading}
               >
-                {text}
+                登录
               </Button>
             </Form.Item>
           </Form>

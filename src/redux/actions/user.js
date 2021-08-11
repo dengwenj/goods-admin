@@ -6,6 +6,7 @@
 import { USER_SUCCESS, USER_ERROR, USER_LOGINOUT } from '../constant'
 import { userLogin } from '../../api/user'
 import { setItem, removeItem } from '../../utils/storage'
+import { message } from 'antd'
 
 // user 登录成功的同步 action
 export const userSuccess = (data) => ({ type: USER_SUCCESS, data })
@@ -32,6 +33,7 @@ export const login = (values) => {
       return
     }
     // 2 登录失败提示用户 分发一个失败的同步 action
+    message.error('用户名或密码错误')
     dispatch(userError('用户名或密码错误'))
   }
 }

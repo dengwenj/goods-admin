@@ -1,7 +1,6 @@
 import React, { Component, lazy } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getItem } from '../../utils/storage'
 import { Layout } from 'antd'
 import './index.less'
 
