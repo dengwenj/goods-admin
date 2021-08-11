@@ -19,9 +19,9 @@ class Aside extends Component {
       // 这里返回是一个数组
       if (!item.children) {
         // 对应的
-        if (item.key === pathname || pathname.indexOf(item.key) === 0) {
+        if (item.key === pathname || pathname.indexOf(item.key) === 0)
           this.props.setHeaderTitle(item.title)
-        }
+
         return (
           <Menu.Item key={item.key} icon={item.icon}>
             <Link

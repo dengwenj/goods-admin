@@ -5,9 +5,9 @@ import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 
 import { getWeather } from '../../api/weather'
-import { user } from '../../redux/actions/user'
-import menuConfig from '../../configs/menuConfig'
-import { removeItem } from '../../utils/storage'
+import { loginOut } from '../../redux/actions/user'
+// import menuConfig from '../../configs/menuConfig'
+// import { removeItem } from '../../utils/storage'
 import './index.less'
 
 const { confirm } = Modal
@@ -58,9 +58,9 @@ class HeaderUI extends Component {
       onOk: () => {
         // 这里要改成箭头函数 用外部的 this
         // 删除用户user 回到登录页面
-        removeItem('user')
+        this.props.loginOut({})
         message.success('退出成功')
-        this.props.history.replace('/login')
+        // this.props.history.replace('/login')
       },
       onCancel() {},
     })
@@ -77,7 +77,7 @@ class HeaderUI extends Component {
   render() {
     // const title = this.getTitle(menuConfig)
     const { weather } = this.state
-    const { name } = this.props.user_key
+    const { name } = this.props.userLoginData
     return (
       <div className="header">
         <div className="header_top">
@@ -115,6 +115,9 @@ class HeaderUI extends Component {
 // )
 
 export default connect(
-  (state) => ({ user_key: state.user_key, headerTitle: state.headerTitle }),
-  { user }
+  (state) => ({
+    userLoginData: state.userLoginData,
+    headerTitle: state.headerTitle,
+  }),
+  { loginOut }
 )(withRouter(HeaderUI))

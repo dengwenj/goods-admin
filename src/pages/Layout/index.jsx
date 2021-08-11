@@ -1,7 +1,6 @@
 import React, { Component, lazy } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { user } from '../../redux/actions/user'
 import { getItem } from '../../utils/storage'
 import { Layout } from 'antd'
 import './index.less'
@@ -23,17 +22,18 @@ const { Footer, Sider, Content } = Layout
 // UI 组件
 class LayoutUI extends Component {
   // 这样写仅仅是为了学习 练习用加深对知识的印象 实际开发不会这样用
-  componentDidMount() {
-    this.props.user(getItem('user'))
-  }
+  // componentDidMount() {
+  //   this.props.user(getItem('user'))
+  // }
 
   render() {
-    const userKey = getItem('user')
+    // const userKey = getItem('user')
+    const { userLoginData } = this.props
 
     // 如果要在 render 里面跳转用 Redirect
     // 如果没有 user 就不需要访问主页面，跳转到登录页 相当于路由拦截器
     // 后面的都不会走了 比如 /home /user  也是直接跳转到 /login
-    if (!userKey || !userKey.id) {
+    if (!userLoginData || !userLoginData.id) {
       return <Redirect to="/login" />
     }
 
@@ -89,6 +89,7 @@ class LayoutUI extends Component {
 }
 
 // 容器组件
-export default connect((state) => ({ user_key: state.user_key }), { user })(
-  LayoutUI
-)
+export default connect(
+  (state) => ({ userLoginData: state.userLoginData }),
+  {}
+)(LayoutUI)
