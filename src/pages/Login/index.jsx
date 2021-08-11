@@ -41,7 +41,7 @@ class LoginUI extends Component {
     })
     // 登录请求的功能在 redux 里面做了 这里只需要把数据传过去就行了
     this.props.login(values)
-    console.log(this.props.userLoginData)
+    // console.log(this.props.userLoginData)
     // // 到这里来说明验证都通过了  发送请求
     // const res = await userLogin(values)
     // 把这个值存到 本地存储中  这里本地存储 仅仅是为了数据持久化
