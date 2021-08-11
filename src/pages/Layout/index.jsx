@@ -2,6 +2,7 @@ import React, { Component, lazy } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Layout } from 'antd'
+import NoFind from '../../components/NoFind'
 import './index.less'
 
 // 路由懒加载
@@ -59,6 +60,7 @@ class LayoutUI extends Component {
           >
             <Switch>
               {/* 二级路由  二级路由也要从一级路由这里下来 先要一级路由在二级路由 所有上哪里的拦截器就进不到这里 */}
+              <Redirect exact from="/" to="/home" />
               <Route path="/home" component={Home} />
               <Route path="/bar" component={Bar} />
               <Route path="/category" component={Category} />
@@ -67,9 +69,9 @@ class LayoutUI extends Component {
               <Route path="/product" component={Product} />
               <Route path="/role" component={Role} />
               <Route path="/user" component={User} />
+              <Route component={NoFind} />
               {/* 当路径都没有匹配上是 就显示 /home 就是重定向 */}
               {/* 一句：就是要每次都要从一级路由这么找下来 */}
-              <Redirect to="/home" />
             </Switch>
           </Content>
           {/* 主体 */}
